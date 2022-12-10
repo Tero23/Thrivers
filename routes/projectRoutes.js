@@ -4,6 +4,6 @@ const multer = require("multer");
 
 const projectController = require("../controllers/projectController");
 
-router.post("/",multer(projectController.multerConfig).single("file"), projectController.createProject);
+router.post("/",multer(projectController.multerConfig).single("SRSFile"), projectController.createProject);
 
 module.exports = router;

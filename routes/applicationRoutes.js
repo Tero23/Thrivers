@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 
 const applicationController = require("../controllers/applicationController");
 
 router
   .route("/")
   .get(applicationController.getAllApplications)
-  .post(applicationController.createApplication);
+  .post(multer(applicationController.multerConfig).single("resume"), applicationController.createApplication);
 
 router.get("/pending", applicationController.getAllPendingApplications);
 

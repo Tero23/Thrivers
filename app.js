@@ -38,7 +38,7 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/v1/products", projectRouter);
+app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/members", memberRouter);
 app.use("/api/v1/internships", internshipRouter);
 app.use("/api/v1/contactInfos", contactInfoRouter);

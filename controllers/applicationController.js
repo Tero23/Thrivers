@@ -10,7 +10,7 @@ exports.multerConfig = {
   storage: multer.diskStorage({
     //Setup where the user's file will go
     destination: function (req, file, next) {
-      next(null, "images");
+      next(null, "./uploads/resumes");
     },
 
     //Then give the file a unique name
@@ -18,30 +18,7 @@ exports.multerConfig = {
       next(null, Date.now() + "." + file.originalname);
     },
   }),
-
-  //A means of ensuring only images are uploaded.
-  fileFilter: function (req, file, next) {
-    if (!file) {
-      next();
-    }
-    const image = file.mimetype.startsWith("image/");
-    if (image) {
-      next(null, true);
-    } else {
-      return next();
-    }
-  },
 };
-
-exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`images/${req.file.filename}`);
-  next();
-});
 
 exports.createApplication = catchAsync(async (req, res, next) => {
   const {
@@ -52,7 +29,6 @@ exports.createApplication = catchAsync(async (req, res, next) => {
     branch,
     yearOfPassOut,
     openingTitle,
-    resume
   } = req.body;
 
   const application = await Application.create({
@@ -63,7 +39,7 @@ exports.createApplication = catchAsync(async (req, res, next) => {
     branch,
     yearOfPassOut,
     openingTitle,
-    resume
+    resume: req.file.filename
   });
   sendEmail(email, name, contactNumber, college, branch, yearOfPassOut, openingTitle);
 

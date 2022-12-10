@@ -8,7 +8,7 @@ exports.multerConfig = {
   storage: multer.diskStorage({
     //Setup where the user's file will go
     destination: function (req, file, next) {
-      next(null, "images");
+      next(null, "./uploads/images");
     },
 
     //Then give the file a unique name

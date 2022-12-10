@@ -8,7 +8,7 @@ exports.multerConfig = {
   storage: multer.diskStorage({
     //Setup where the user's file will go
     destination: function (req, file, next) {
-      next(null, "SRS-Files");
+      next(null, "./uploads/SRS-Files");
     },
 
     //Then give the file a unique name
@@ -16,9 +16,6 @@ exports.multerConfig = {
       next(null, Date.now() + "." + file.originalname);
     },
   }),
-  limits: {
-    fileSize: 1000000
-  }
 };
 
 
