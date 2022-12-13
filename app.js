@@ -10,8 +10,12 @@ const globalErrorHandler = require("./controllers/errorController");
 const projectRouter = require("./routes/projectRoutes");
 const memberRouter = require("./routes/memberRoutes");
 const internshipRouter = require("./routes/internshipRoutes");
-const applicationRouter = require("./routes/applicationRoutes");
-const contactInfoRouter = require("./routes/contactInfoRoutes")
+const internshipApplicationRouter = require("./routes/internshipApplicationRoutes");
+const contactInfoRouter = require("./routes/contactInfoRoutes");
+const mentorshipApplicationRouter = require("./routes/mentorshipApplicationRoutes");
+const mentorshipRouter = require("./routes/mentorshipRoutes");
+const stripeRouter = require("./routes/stripeRoutes");
+const refundRouter = require("./routes/refundRoutes");
 
 // Start express app
 const app = express();
@@ -42,7 +46,11 @@ app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/members", memberRouter);
 app.use("/api/v1/internships", internshipRouter);
 app.use("/api/v1/contactInfos", contactInfoRouter);
-app.use("/api/v1/applications", applicationRouter);
+app.use("/api/v1/internshipApplications", internshipApplicationRouter);
+app.use("/api/v1/mentorshipApplications", mentorshipApplicationRouter);
+app.use("/api/v1/mentorships", mentorshipRouter);
+app.use("/api/v1/stripe", stripeRouter);
+app.use("/api/v1/refunds", refundRouter);
 
 app.all("*", (req, res, next) => {
   return next(

@@ -27,6 +27,11 @@ const sendErrorDev = (err, res) => {
 };
 
 const sendErrorProd = (err, res) => {
+  if (err.message.startsWith("No such token")) {
+    res.status(400).json({
+      message: "Wrong Credentials!"
+    });
+  }
   // Operational, trusted error: send message to the client
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -35,7 +40,7 @@ const sendErrorProd = (err, res) => {
     });
     // Programming or other unknown error: don't send error details to the client
   } else {
-    console.log(err);
+    console.log(err.message);
     res.status(500).json({
       status: "error",
       message: "Something went really wrong!",

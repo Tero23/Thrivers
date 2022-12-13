@@ -2,7 +2,6 @@ const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 const multer = require("multer");
-const sharp = require("sharp");
 
 exports.multerConfig = {
   storage: multer.diskStorage({
@@ -28,6 +27,8 @@ exports.createProject = catchAsync(async (req, res, next) => {
     BriefDescription,
     Deadline,
   } = req.body;
+
+  if (!req.file) return next(new AppError("Please upload your SRS!", 400));
 
   const project = await Project.create({
     email,

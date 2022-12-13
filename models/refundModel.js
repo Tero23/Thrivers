@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const applicationSchema = new mongoose.Schema({
+const refundSchema = new mongoose.Schema({
   email: {
     type: String,
     trim: true,
@@ -30,24 +30,16 @@ const applicationSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Please enter your years of pass out!"],
   },
-  openingTitle: {
-    type: String,
-    required: [true, "Please upload an opening title!"],
+  purchaseDate: {
+    type: Date,
+    required: [true, "Please provide your purchase date!"],
   },
-  resume: {
+  screenShot: {
     type: String,
-    required: [true, "Please upload your resume!"],
-  },
-  status: {
-    type: String,
-    enum: {
-      values: ["Pending", "Approved", "Rejected"],
-      message: "status is either Pending or Approved or Rejected!",
-    },
-    default: "Pending",
+    required: [true, "Please upload your screenShot!"],
   },
 });
 
-const Application = mongoose.model("Application", applicationSchema);
+const Refund = mongoose.model("Refund", refundSchema);
 
-module.exports = Application;
+module.exports = Refund;

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const nodemailer = require("nodemailer");
 
-exports.sendEmail = (email, name, contactNumber, college, branch, yearOfPassOut, openingTitle) => {
+exports.sendEmail = (obj) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -12,9 +12,9 @@ exports.sendEmail = (email, name, contactNumber, college, branch, yearOfPassOut,
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: email,
+        to: obj.email,
         subject: 'A copy of your responses',
-        text: `email: ${email}, name: ${name}, contactNumber: ${contactNumber}, college: ${college}, branch: ${branch}, yearOfPassOut: ${yearOfPassOut}, ${openingTitle === "undefined" ? "query": "openingTitle"}:${openingTitle ? openingTitle: query}`
+        text: `email: ${obj.email}, name: ${obj.name}, contactNumber: ${obj.contactNumber}, college: ${obj.college}, branch: ${obj.branch}, yearOfPassOut: ${obj.yearOfPassOut}`
     }
 
     transporter.sendMail(mailOptions, (err, data) => {

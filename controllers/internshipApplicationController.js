@@ -1,4 +1,4 @@
-const Application = require("../models/applicationModel");
+const InternshipApplication = require("../models/internshipApplicationModel");
 const Internship = require("../models/internshipModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
@@ -31,7 +31,9 @@ exports.createApplication = catchAsync(async (req, res, next) => {
     openingTitle,
   } = req.body;
 
-  const application = await Application.create({
+  if (!req.file) return next(new AppError("Please upload your resume!", 400));
+
+  const application = await InternshipApplication.create({
     email,
     name,
     contactNumber,
@@ -41,7 +43,7 @@ exports.createApplication = catchAsync(async (req, res, next) => {
     openingTitle,
     resume: req.file.filename
   });
-  sendEmail(email, name, contactNumber, college, branch, yearOfPassOut, openingTitle);
+  sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, openingTitle});
 
   res.status(201).json({
     application,
@@ -49,7 +51,7 @@ exports.createApplication = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllApplications = catchAsync(async (req, res, next) => {
-  const applications = await Application.find({});
+  const applications = await InternshipApplication.find({});
   res.status(200).json({
     count: applications.length,
     applications,
@@ -57,7 +59,7 @@ exports.getAllApplications = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllPendingApplications = catchAsync(async (req, res, next) => {
-  const applications = await Application.find({ status: "Pending" });
+  const applications = await InternshipApplication.find({ status: "Pending" });
   res.status(200).json({
     count: applications.length,
     applications,
@@ -65,7 +67,7 @@ exports.getAllPendingApplications = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllApprovedApplications = catchAsync(async (req, res, next) => {
-  const applications = await Application.find({ status: "Approved" });
+  const applications = await InternshipApplication.find({ status: "Approved" });
   res.status(200).json({
     count: applications.length,
     applications,
@@ -73,7 +75,7 @@ exports.getAllApprovedApplications = catchAsync(async (req, res, next) => {
 });
 
 exports.getApplicationById = catchAsync(async (req, res, next) => {
-  const application = await Application.findOne({ _id: req.params.id });
+  const application = await InternshipApplication.findOne({ _id: req.params.id });
   if (!application)
     return next(new AppError("There is no application with that id!", 404));
   res.status(200).json({
@@ -83,7 +85,7 @@ exports.getApplicationById = catchAsync(async (req, res, next) => {
 
 exports.evaluateApplicationById = catchAsync(async (req, res, next) => {
   const { status } = req.body;
-  const application = await Application.findOne({ _id: req.params.id });
+  const application = await InternshipApplication.findOne({ _id: req.params.id });
   if (!application)
     return next(new AppError("There is no application with that id!", 404));
   application.status = status;
@@ -94,7 +96,7 @@ exports.evaluateApplicationById = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteAllRejectedApplications = catchAsync(async (req, res, next) => {
-  await Application.deleteMany({ status: "Rejected" });
+  await InternshipApplication.deleteMany({ status: "Rejected" });
   res.status(200).json({
     message: "Applications successfully deleted!"
   })
