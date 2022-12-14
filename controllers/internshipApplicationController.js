@@ -1,9 +1,7 @@
 const InternshipApplication = require("../models/internshipApplicationModel");
-const Internship = require("../models/internshipModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 const multer = require("multer");
-const sharp = require("sharp");
 const { sendEmail } = require("../utils/email");
 
 exports.multerConfig = {
@@ -43,7 +41,7 @@ exports.createApplication = catchAsync(async (req, res, next) => {
     openingTitle,
     resume: req.file.filename
   });
-  sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, openingTitle});
+  sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, openingTitle}, "internshipApp");
 
   res.status(201).json({
     application,

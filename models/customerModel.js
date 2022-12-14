@@ -6,7 +6,6 @@ const customerSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, "Please provide an email!"],
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email!"],
   },
@@ -19,6 +18,9 @@ const customerSchema = new mongoose.Schema({
     required: [true, "Please provide a valid stripe token!"],
   },
 });
+
+// Composite primary key, email and mentorshipName are together unique
+customerSchema.index({ email: 1, mentorshipName: 1 }, { unique: true, message: 'You are already subscribed!' });
 
 const Customer = mongoose.model("Customer", customerSchema);
 

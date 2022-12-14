@@ -2,6 +2,7 @@ const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 const multer = require("multer");
+const { sendEmail } = require("../utils/email");
 
 exports.multerConfig = {
   storage: multer.diskStorage({
@@ -39,6 +40,15 @@ exports.createProject = catchAsync(async (req, res, next) => {
     Deadline,
     SRSFile: req.file.filename,
   });
+
+  sendEmail({
+    email,
+    organizationName,
+    contactNumber,
+    Title,
+    BriefDescription,
+    Deadline,
+  }, "project");
 
   res.status(201).json({
     message: "Project successfully created.",

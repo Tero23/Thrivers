@@ -6,11 +6,10 @@ const { sendEmail } = require("../utils/email");
 
 exports.multerConfig = {
   storage: multer.diskStorage({
-    //Setup where the user's file will go
+    //Setup where the file will go
     destination: function (req, file, next) {
       next(null, "./uploads/QR-screenShots");
     },
-
     //Then give the file a unique name
     filename: function (req, file, next) {
       next(null, Date.now() + "." + file.originalname);
@@ -41,9 +40,9 @@ exports.createMentorship = catchAsync(async (req, res, next) => {
       yearOfPassOut,
       formProviderName,
       mentorshipName,
-      screenShot: req.file.filename
+      screenShot: req.file.filename,
     });
-    sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, formProviderName, mentorshipName});
+    sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, formProviderName, mentorshipName}, "mentorshipApp");
   
     res.status(201).json({
         mentorship,

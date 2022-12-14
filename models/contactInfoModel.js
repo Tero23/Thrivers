@@ -6,7 +6,6 @@ const contactInfoSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, "Please provide an email!"],
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email!"],
   },

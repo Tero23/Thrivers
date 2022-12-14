@@ -39,6 +39,7 @@ app.use("/api", limiter);
 
 // Body parser, reading data from body into req.body and there is limit of 10kb.
 app.use(express.json({ limit: "10kb" }));
+// In case needed in the future
 app.use(cookieParser());
 
 // Routes
@@ -52,6 +53,7 @@ app.use("/api/v1/mentorships", mentorshipRouter);
 app.use("/api/v1/stripe", stripeRouter);
 app.use("/api/v1/refunds", refundRouter);
 
+// If you hit a wrong route
 app.all("*", (req, res, next) => {
   return next(
     new AppError(`Can't find ${req.originalUrl} on this server!`, 404)

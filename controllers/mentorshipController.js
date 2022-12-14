@@ -1,6 +1,5 @@
 const Mentorship = require("../models/mentorshipModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
 const multer = require("multer");
 const sharp = require("sharp");
 

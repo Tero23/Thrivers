@@ -1,6 +1,5 @@
 const Member = require("../models/memberModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
 const multer = require("multer");
 const sharp = require("sharp");
 

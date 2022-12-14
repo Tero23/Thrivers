@@ -1,6 +1,5 @@
 const ContactInfo = require("../models/contactInfoModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
 const { sendEmail } = require("../utils/email");
 
 exports.createContactInfo = catchAsync(async (req, res, next) => {
@@ -24,7 +23,7 @@ exports.createContactInfo = catchAsync(async (req, res, next) => {
         query
       });
       
-      sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, query});
+      sendEmail({email, name, contactNumber, college, branch, yearOfPassOut, query}, "contactInfo");
 
       res.status(201).json({
         contactInfo,

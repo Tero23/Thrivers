@@ -1,6 +1,5 @@
 const Internship = require("../models/internshipModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
 
 exports.createInternship = catchAsync(async (req, res, next) => {
   const { type, details } = req.body;

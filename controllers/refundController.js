@@ -49,7 +49,7 @@ exports.createRefund = catchAsync(async (req, res, next) => {
     college,
     branch,
     yearOfPassOut,
-    purchaseDate});
+    purchaseDate}, "refund");
 
   res.status(201).json({
     message: "Refund successfully submitted!",
